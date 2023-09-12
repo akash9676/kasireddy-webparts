@@ -1,0 +1,112 @@
+.newListCreation {
+  .previewText {
+    font-size: 1rem;
+    font-weight: 600;
+    color: "[theme: themeDark]";
+    line-height: 20px;
+  }
+
+  .hr {
+    height: 1px;
+    background-color: "[theme: themeLighter]";
+    border: none;
+    margin: 20px 0;
+  }
+  .form-group {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+    align-items: center;
+    .form {
+      &-label {
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 1.125rem;
+        color: "[theme: neutralPrimary]";
+        min-width: 15%;
+        max-width: 250px;
+      }
+      &-control {
+        border: 1px solid;
+        min-width: 300px;
+        flex-grow: 1;
+        padding: 5px;
+        border-color: "[theme: neutralQuaternaryAlt]";
+      }
+    }
+  }
+  .button {
+    display: flex;
+    justify-content: center;
+    padding: 6px 10px;
+    border: 0px;
+    background-color: "[theme: themeLighter]";
+    color: #000;
+    cursor: pointer;
+    min-width: 80px;
+    &:hover,
+    &.active {
+      background-color: "[theme: themeDark]";
+      color: "[theme: white]";
+    }
+  }
+  .success-message {
+    background-color: #baffb8;
+    color: "[theme: neutralPrimary]";
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 18px;
+    margin-top: 15px;
+  }
+  .add-item {
+    display: flex;
+    justify-content: center;
+    color: "[theme: themeDark]";
+    font-weight: 600;
+    margin-top: 15px;
+  }
+}
+.d-flex {
+  display: flex;
+}
+.just-right {
+  justify-content: right;
+}
+.createListToggleIcon {
+  display: flex;
+  width: 15px;
+  height: 15px;
+  border: 1px solid #000;
+  border-color: "[theme: themeDark]";
+  border-radius: 50%;
+  font-size: 10px;
+  color: "[theme: themeDark]";
+  position: relative;
+  margin-bottom: 10px;
+  cursor: pointer;
+  &:before {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 1px;
+    width: 15px;
+    height: 15px;
+    font-size: 20px;
+    line-height: 10px;
+  }
+  &.plusIcon {
+    &:before {
+      content: "+";
+    }
+  }
+  &.minusIcon {
+    &:before {
+      content: "-";
+      font-size: 32px;
+      line-height: 7px;
+    }
+  }
+}

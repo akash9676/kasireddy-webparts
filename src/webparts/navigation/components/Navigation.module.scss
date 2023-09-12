@@ -1,0 +1,85 @@
+@import "~office-ui-fabric-react/dist/sass/References.scss";
+@import "../../common/scss/common.module.scss";
+
+.navigation {
+  display: flex;
+  flex-direction: row;
+  ul {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    li {
+      padding: 0px;
+      margin: 0px;
+      position: relative;
+      font-size: large;
+      padding: 5px 10px;
+      margin-right: 10px;
+      color: "[theme: themePrimary]";
+      cursor: pointer;
+      font-weight: 600;
+      a {
+        color: "[theme:themePrimary]";
+        text-decoration: none;
+        &:hover {
+          color: "[theme:neutralDark]";
+        }
+      }
+      ul {
+        flex-direction: column;
+        display: none;
+        position: absolute;
+      }
+      &:hover {
+        ul {
+          display: flex;
+          top: 100%;
+          left: 50%;
+          z-index: 9;
+          padding: 0;
+          min-width: 210px;
+          transform: translateX(-50%);
+          border-radius: 3px;
+          box-shadow: 0 0 20px rgb(0 0 0 / 15%);
+          background-color: "[theme:themeLighter]";
+          &::before {
+            position: absolute;
+            left: 50%;
+            background: "[theme:themeLighter]";
+            content: "";
+            z-index: -1;
+            top: -5px;
+            transform: translateX(-50%) rotate(45deg);
+            width: 10px;
+            height: 10px;
+          }
+          li {
+            padding: 0px;
+            margin: 0px;
+            display: block;
+            + li {
+              border-top: 0.5px solid #ffffff;
+            }
+            a {
+              padding: 10px 20px;
+              font-weight: 600;
+              font-size: 13px;
+              font-size: 0.8125rem;
+              color: "[theme:themePrimary]";
+              text-decoration: none;
+              width: 100%;
+              display: block;
+              box-sizing: border-box;
+              &:hover {
+                background-color: "[theme:themePrimary]";
+                color: "[theme:themeLighter]";
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

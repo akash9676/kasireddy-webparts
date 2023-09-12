@@ -1,0 +1,18 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": false,
+    "environment": "spo",
+    "version": "1.13.1",
+    "libraryName": "cosmoswebparts",
+    "libraryId": "308c2f70-67a8-499a-9120-c261db484931",
+    "packageManager": "npm",
+    "isDomainIsolated": true,
+    "nodeVersion": "16.15.0",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.9.1"
+    },
+    "componentType": "webpart"
+  }
+}

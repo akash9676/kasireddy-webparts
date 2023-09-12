@@ -1,0 +1,29 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "cosmoswebparts-client-side-solution",
+    "id": "308c2f70-67a8-499a-9120-c261db484931",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.13.1"
+    },
+    "features": [
+      {
+        "title": "cosmoswebparts Feature",
+        "description": "The feature that activates elements of the cosmoswebparts solution.",
+        "id": "87e97c80-4a7d-42d6-9c5a-b60290605a3b",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/KPMG.Global.Cosmos.SPO.WebParts02.sppkg"
+  }
+}

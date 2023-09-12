@@ -1,0 +1,31 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "9de642ed-f235-47c5-824d-97c3624f346e",
+  "alias": "NavigationWebPart",
+  "componentType": "WebPart",
+
+  // The "*" signifies that the version should be taken from the package.json
+  "version": "*",
+  "manifestVersion": 2,
+
+  // If true, the component can only be installed on sites where Custom Script is allowed.
+  // Components that allow authors to embed arbitrary script code should set this to true.
+  // https://support.office.com/en-us/article/Turn-scripting-capabilities-on-or-off-1f2c515f-5d7e-448a-9fd7-835da935584f
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart", "TeamsPersonalApp", "TeamsTab", "SharePointFullPage"],
+  "supportsThemeVariants": true,
+  "supportsFullBleed": true,
+  "preconfiguredEntries": [{
+    "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Other
+    "group": { "default": "Other" },
+    "title": { "default": "Kasireddy Navigation" },
+    "officeFabricIconFontName": "Page",
+    "description": { "default": "Kasireddy Navigation" },
+    // "iconImageUrl":"data:image/png;base64,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",
+    "properties": {
+      "description": "Navigation",
+      "listName": "Navigation",
+      "category": "All"
+    }
+  }]
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "project-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/project/ProjectWebPart.js",
+          "manifest": "./src/webparts/project/ProjectWebPart.manifest.json"
+        }
+      ]
+    },
+    "team-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/team/TeamWebPart.js",
+          "manifest": "./src/webparts/team/TeamWebPart.manifest.json"
+        }
+      ]
+    },
+    "navigation-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/navigation/NavigationWebPart.js",
+          "manifest": "./src/webparts/navigation/NavigationWebPart.manifest.json"
+        }
+      ]
+    },
+    "tiles-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/tiles/TilesWebPart.js",
+          "manifest": "./src/webparts/tiles/TilesWebPart.manifest.json"
+        }
+      ]
+    },
+    "hello-world-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/helloWorld/HelloWorldWebPart.js",
+          "manifest": "./src/webparts/helloWorld/HelloWorldWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "ProjectWebPartStrings": "lib/webparts/project/loc/{locale}.js",
+    "TeamWebPartStrings": "lib/webparts/team/loc/{locale}.js",
+    "NavigationWebPartStrings": "lib/webparts/navigation/loc/{locale}.js",
+    "TilesWebPartStrings": "lib/webparts/tiles/loc/{locale}.js",
+    "HelloWorldWebPartStrings": "lib/webparts/helloWorld/loc/{locale}.js"
+  }
+}
