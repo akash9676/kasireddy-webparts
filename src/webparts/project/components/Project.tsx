@@ -1,30 +1,16 @@
 import * as React from "react";
-import styles from "./Project.module.scss";
 import { IProjectProps } from "./IProjectProps";
-import { escape } from "@microsoft/sp-lodash-subset";
 import Banner from "../../../utils/banner/components";
-import Teams from "../../../utils/teams/components";
 import {
   SPHttpClient,
-  SPHttpClientResponse,
   HttpClient,
 } from "@microsoft/sp-http";
 import { IProjectState } from "./IProjectState";
 import * as _ from "lodash";
 import { IBannerItem } from "./IBannerItem";
-import {
-  DisplayMode,
-  Environment,
-  EnvironmentType,
-} from "@microsoft/sp-core-library";
 import { BannerAPI } from "../../../api/bannerApi";
-import { fetchDocumentList } from "../../../api/fetchDocumentList";
-import { IPropertyPaneDropdownOption } from "@microsoft/sp-property-pane";
-import Select from "react-select";
-import { forEach } from "lodash";
 import { ActionType } from "../../tiles/components/enums";
 import { isPageInEditMode } from "../../common/isPageInEditMode";
-import CreateList from "../../common/components/createlist/CreateList";
 
 export default class Project extends React.Component<
   IProjectProps,

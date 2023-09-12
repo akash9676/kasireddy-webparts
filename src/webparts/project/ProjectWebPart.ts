@@ -18,13 +18,10 @@ import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
 import * as strings from "ProjectWebPartStrings";
 import Project from "./components/Project";
 import { IProjectProps } from "./components/IProjectProps";
-import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
-import { IODataList } from "@microsoft/sp-odata-types";
 import { fetchDocumentList } from "../../api/fetchDocumentList";
 import { fetchListCategory } from "../../api/fetchListCategory";
 import { getListUrl } from "../common/getListUrl";
 import { BannerAPI } from "../../api/bannerApi";
-import { SampleImages } from "../../utils/sample/SampleImages";
 import { Constant } from "./constant";
 
 export interface IProjectWebPartProps {

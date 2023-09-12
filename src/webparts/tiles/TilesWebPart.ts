@@ -6,7 +6,6 @@ import {
   IPropertyPaneDropdownOption,
   PropertyPaneButton,
   PropertyPaneButtonType,
-  PropertyPaneChoiceGroup,
   PropertyPaneDropdown,
   PropertyPaneLabel,
   PropertyPaneLink,
@@ -30,7 +29,6 @@ import {
   SeeMoreGroupSettings,
 } from "../../settings/seeMoreSettings/SeeMoreSettings";
 import { ISeeMoreSettings } from "../../settings/seeMoreSettings/ISeeMoreSettings";
-import { fetchList } from "../../api/fetchList";
 import { fetchDocumentList } from "../../api/fetchDocumentList";
 import { fetchListCategory } from "../../api/fetchListCategory";
 import { getListUrl } from "../common/getListUrl";
@@ -95,10 +93,6 @@ export default class TilesWebPart extends BaseClientSideWebPart<ITilesWebPartPro
       this.properties.listName
     ).then((lists: IPropertyPaneDropdownOption[]) => {
       this.listCategoryOptions = lists;
-      //this.properties.category = lists[0].text;
-      // // re-render the web part as clearing the loading indicator removes the web part body
-      // this.render();
-      // // refresh the item selector control by repainting the property pane
       this.context.propertyPane.refresh();
     });
   }

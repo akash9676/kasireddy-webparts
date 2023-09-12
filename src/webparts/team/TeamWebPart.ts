@@ -6,7 +6,6 @@ import {
   PropertyPaneTextField,
   PropertyPaneDropdown,
   PropertyPaneToggle,
-  PropertyPaneChoiceGroup,
   IPropertyPaneDropdownOption,
   PropertyPaneLink,
   PropertyPaneButton,

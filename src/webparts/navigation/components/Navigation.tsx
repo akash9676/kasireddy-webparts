@@ -1,14 +1,12 @@
 import * as React from "react";
 import styles from "./Navigation.module.scss";
 import { INavigationProps } from "./INavigationProps";
-import { escape } from "@microsoft/sp-lodash-subset";
 import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
 import { INavigationItem } from "./INavigationItem";
 import * as _ from "lodash";
 import { INavigationState } from "./INavigationState";
 import { NavigationAPI } from "../../../api/navigationApi";
 import { isPageInEditMode } from "../../common/isPageInEditMode";
-import CreateList from "../../common/components/createlist/CreateList";
 
 export default class Navigation extends React.Component<
   INavigationProps,

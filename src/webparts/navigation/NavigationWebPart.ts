@@ -19,7 +19,6 @@ import { INavigationProps } from "./components/INavigationProps";
 import { fetchList } from "../../api/fetchList";
 import { fetchListCategory } from "../../api/fetchListCategory";
 import { getListUrl } from "../common/getListUrl";
-import { PropertyPaneCustomCreateList } from "../common/pannelControl/PropertyPaneCustomCreateList";
 import { NavigationAPI } from "../../api/navigationApi";
 
 export interface INavigationWebPartProps {

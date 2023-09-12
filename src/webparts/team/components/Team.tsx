@@ -1,14 +1,12 @@
 import * as React from "react";
 import { ITeamProps } from "./ITeamProps";
 import Teams from "../../../utils/teams/components";
-import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
+import { SPHttpClient } from "@microsoft/sp-http";
 import { ITeam, ITeamState } from "./ITeamState";
 import * as _ from "lodash";
 import { ISeeMoreSettings } from "../../../settings/seeMoreSettings/ISeeMoreSettings";
 import { isPageInEditMode } from "../../common/isPageInEditMode";
 import { TeamAPI } from "../../../api/teamApi";
-import CreateList from "../../common/components/createlist/CreateList";
-import { ISPHttpClientOptions, HttpClient } from "@microsoft/sp-http";
 
 export default class Team extends React.Component<ITeamProps, ITeamState> {
   private baseUrl: string;
@@ -97,27 +95,6 @@ export default class Team extends React.Component<ITeamProps, ITeamState> {
           this.setState({ items: [] });
         }
       });
-    // let r = this.dataURItoBlob(this.defaultProfilePic);
-    // let obj = new File(r, "image1.png");
-    // let spOpts: ISPHttpClientOptions = {
-    //   headers: {
-    //     Accept: "image/png",
-    //     "Content-Type": "image/png",
-    //   },
-    //   body: obj,
-    // };
-
-    // var url = `https://iktecio.sharepoint.com/sites/DCP02/_api/Web/Lists/getByTitle('banner')/RootFolder/Files/Add(url='image1.png', overwrite=true)`;
-
-    // this.spHttpClient
-    //   .post(url, SPHttpClient.configurations.v1, spOpts)
-    //   .then((response: SPHttpClientResponse) => {
-    //     if (response.status === 200) {
-    //       response.json().then((responseJSON: JSON) => {
-    //         console.log(responseJSON);
-    //       });
-    //     }
-    //   });
   }
   private dataURItoBlob(dataURI) {
     // convert base64 to raw binary data held in a string

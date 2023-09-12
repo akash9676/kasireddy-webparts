@@ -1,9 +1,8 @@
 import * as React from "react";
 import styles from "./Tiles.module.scss";
 import { ITilesProps } from "./ITilesProps";
-import { escape } from "@microsoft/sp-lodash-subset";
 import { ITileItem } from "./ITileItem";
-import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
+import { SPHttpClient } from "@microsoft/sp-http";
 import { ITileState } from "./ITileState";
 import * as strings from "TilesWebPartStrings";
 import {
@@ -13,10 +12,8 @@ import {
   textPosition,
   ActionType,
 } from "./enums";
-import Pagination from "../../../utils/pagination/pagination";
 import { isPageInEditMode } from "../../common/isPageInEditMode";
 import { TileAPI } from "../../../api/tileApi";
-import CreateList from "../../common/components/createlist/CreateList";
 
 export default class Tiles extends React.Component<ITilesProps, ITileState> {
   private baseUrl: string;
