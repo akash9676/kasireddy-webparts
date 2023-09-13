@@ -28,7 +28,8 @@ export interface IProjectWebPartProps {
   listName: string;
   textPosition: string;
   bannerImagePosition: string;
-  textSize: string;
+  // textSize: string;
+  textSize: number;
   speed: number;
   height: number;
   dots: boolean;
@@ -225,26 +226,34 @@ export default class ProjectWebPart extends BaseClientSideWebPart<IProjectWebPar
             },
           ],
         }),
-        PropertyPaneDropdown("textSize", {
-          label: strings.TextSizeFieldLabel,
-          options: [
-            {
-              key: Constant.PX_46,
-              text: "46 px",
-            },
-            {
-              key: Constant.PX_38,
-              text: "38 px",
-            },
-            {
-              key: Constant.PX_32,
-              text: "32 px",
-            },
-            {
-              key: Constant.PX_26,
-              text: "26 px",
-            },
-          ],
+        // PropertyPaneDropdown("textSize", {
+        //   label: strings.TextSizeFieldLabel,
+        //   options: [
+        //     {
+        //       key: Constant.PX_46,
+        //       text: "46 px",
+        //     },
+        //     {
+        //       key: Constant.PX_38,
+        //       text: "38 px",
+        //     },
+        //     {
+        //       key: Constant.PX_32,
+        //       text: "32 px",
+        //     },
+        //     {
+        //       key: Constant.PX_26,
+        //       text: "26 px",
+        //     },
+        //   ],
+        // }),
+
+        PropertyPaneSlider("textSize", {
+          label: "Text Size",
+          min: 12, // Minimum text size
+          max: 60, // Maximum text size
+          step: 1, // Step increment
+          showValue: true, // Show the current value next to the slider
         }),
       ];
     }

@@ -5,7 +5,8 @@ export interface IProjectProps {
   listName: string;
   textPosition: string;
   bannerImagePosition: string;
-  textSize: string;
+  // textSize: string;
+  textSize: number;
   speed: number;
   height: number;
   dots: boolean;

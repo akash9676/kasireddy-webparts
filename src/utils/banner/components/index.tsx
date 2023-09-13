@@ -9,7 +9,8 @@ interface IProps {
   bannerItems: IBannerItem[];
   bannerText?: string;
   textPosition?: string;
-  textSize: string;
+  // textSize: string;
+  textSize: number;
   speed: number;
   height: number;
   dots: boolean;
@@ -49,6 +50,11 @@ const Banner: React.FC<IProps> = (props) => {
     arrows: arrows,
     autoplaySpeed: speed * 1000,
   };
+
+  // const textStyle = {
+  //   fontSize: `${textSize}px`, // Apply the selected text size
+  // };
+
   const imagePosition = (position: string) => {
     switch (position) {
       case "center":
@@ -105,10 +111,12 @@ const Banner: React.FC<IProps> = (props) => {
             <div className={`details ${textPosition}`}>
               {(slideView === "basic" || slideView === "basicwithDetail") &&
                 slideTitleFromList && (
-                  <h1 style={{ fontSize: `${textSize}` }}>{item.slideTitle}</h1>
+                  <h1 style={{ fontSize: `${textSize}px` }}>
+                    {item.slideTitle}
+                  </h1>
                 )}
               {slideView === "basicwithDetail" && !slideTitleFromList && (
-                <h1 style={{ fontSize: `${textSize}` }}>{bannerText}</h1>
+                <h1 style={{ fontSize: `${textSize}px` }}>{bannerText}</h1>
               )}
               {slideView === "basicwithDetail" && (
                 <div className="description">{item?.slideDescription}</div>
@@ -127,10 +135,12 @@ const Banner: React.FC<IProps> = (props) => {
             <div className={`details ${textPosition}`}>
               {(slideView === "basic" || slideView === "basicwithDetail") &&
                 slideTitleFromList && (
-                  <h1 style={{ fontSize: `${textSize}` }}>{item.slideTitle}</h1>
+                  <h1 style={{ fontSize: `${textSize}px` }}>
+                    {item.slideTitle}
+                  </h1>
                 )}
               {slideView === "basicwithDetail" && !slideTitleFromList && (
-                <h1 style={{ fontSize: `${textSize}` }}>{bannerText}</h1>
+                <h1 style={{ fontSize: `${textSize}px` }}>{bannerText}</h1>
               )}
               {slideView === "basicwithDetail" && (
                 <div className="description">{item?.slideDescription}</div>
@@ -155,7 +165,7 @@ const Banner: React.FC<IProps> = (props) => {
       <Slider {...settings}>{items}</Slider>
       {slideView === "basic" && !slideTitleFromList && (
         <div className={`details ${textPosition}`}>
-          <h1 style={{ fontSize: `${textSize}` }}>{bannerText}</h1>
+          <h1 style={{ fontSize: `${textSize}px` }}>{bannerText}</h1>
         </div>
       )}
     </div>
