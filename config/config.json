@@ -41,6 +41,14 @@
           "manifest": "./src/webparts/helloWorld/HelloWorldWebPart.manifest.json"
         }
       ]
+    },
+    "web-part-settings-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/webPartSettings/WebPartSettingsWebPart.js",
+          "manifest": "./src/webparts/webPartSettings/WebPartSettingsWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -49,6 +57,7 @@
     "TeamWebPartStrings": "lib/webparts/team/loc/{locale}.js",
     "NavigationWebPartStrings": "lib/webparts/navigation/loc/{locale}.js",
     "TilesWebPartStrings": "lib/webparts/tiles/loc/{locale}.js",
-    "HelloWorldWebPartStrings": "lib/webparts/helloWorld/loc/{locale}.js"
+    "HelloWorldWebPartStrings": "lib/webparts/helloWorld/loc/{locale}.js",
+    "WebPartSettingsWebPartStrings": "lib/webparts/webPartSettings/loc/{locale}.js"
   }
 }
