@@ -19,8 +19,8 @@
   "preconfiguredEntries": [{
     "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Other
     "group": { "default": "Other" },
-    "title": { "default": "Kasireddy Tiles" },
-    "description": { "default": "Kasireddy Tiles" },
+    "title": { "default": "IKTEC Tiles" },
+    "description": { "default": "IKTEC Tiles" },
     "officeFabricIconFontName": "Page",
     // "iconImageUrl":"data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB3aWR0aD0iNzZweCIgaGVpZ2h0PSI3NnB4IiB2aWV3Qm94PSIwIDAgNzYgNzYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZlcnNpb249IjEuMSIgYmFzZVByb2ZpbGU9ImZ1bGwiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDc2LjAwIDc2LjAwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KCTxwYXRoIGZpbGw9IiMwMDAwMDAiIGZpbGwtb3BhY2l0eT0iMSIgc3Ryb2tlLXdpZHRoPSIwLjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGQ9Ik0gMTgsNDBMIDM2LDQwTCAzNiw1OEwgMTgsNThMIDE4LDQwIFogTSA0MCw1OEwgNDAsNDBMIDU4LDQwTCA1OCw1OEwgNDAsNTggWiBNIDQwLDM2TCA0MCwxOEwgNTgsMThMIDU4LDM2TCA0MCwzNiBaIE0gMTgsMjlMIDE4LDI1TCAzNiwyNUwgMzYsMjlMIDE4LDI5IFogIi8+Cjwvc3ZnPgo=",
     "properties": {
