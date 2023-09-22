@@ -5,7 +5,7 @@ import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
 import { INavigationItem } from "./INavigationItem";
 import * as _ from "lodash";
 import { INavigationState } from "./INavigationState";
-import { NavigationAPI } from "../../../api/navigationApi";
+import { NavigationAPI } from "../../../api/navigation/navigationApi";
 import { isPageInEditMode } from "../../common/isPageInEditMode";
 
 export default class Navigation extends React.Component<

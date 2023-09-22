@@ -21,7 +21,7 @@ import { IProjectProps } from "./components/IProjectProps";
 import { fetchDocumentList } from "../../api/fetchDocumentList";
 import { fetchListCategory } from "../../api/fetchListCategory";
 import { getListUrl } from "../common/getListUrl";
-import { BannerAPI } from "../../api/bannerApi";
+import { BannerAPI } from "../../api/banner/bannerApi";
 import { Constant } from "./constant";
 
 export interface IProjectWebPartProps {

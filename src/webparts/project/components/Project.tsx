@@ -1,14 +1,11 @@
 import * as React from "react";
 import { IProjectProps } from "./IProjectProps";
 import Banner from "../../../utils/banner/components";
-import {
-  SPHttpClient,
-  HttpClient,
-} from "@microsoft/sp-http";
+import { SPHttpClient, HttpClient } from "@microsoft/sp-http";
 import { IProjectState } from "./IProjectState";
 import * as _ from "lodash";
 import { IBannerItem } from "./IBannerItem";
-import { BannerAPI } from "../../../api/bannerApi";
+import { BannerAPI } from "../../../api/banner/bannerApi";
 import { ActionType } from "../../tiles/components/enums";
 import { isPageInEditMode } from "../../common/isPageInEditMode";
 

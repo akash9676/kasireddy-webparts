@@ -1,32 +1,28 @@
+import { IBannerItem } from "../../webparts/project/components/IBannerItem";
 import {
   SPHttpClient,
   SPHttpClientResponse,
   ISPHttpClientOptions,
   HttpClient,
 } from "@microsoft/sp-http";
-import { SampleImages } from "../utils/sample/SampleImages";
-import { ITileItem } from "../webparts/tiles/components/ITileItem";
-import getFormDigest from "./getFormDigest";
-import { Utility } from "./utility";
+import getFormDigest from "../getFormDigest";
+import { forEach, uniqueId } from "lodash";
+import { SampleImages } from "../../utils/sample/SampleImages";
+import { Utility } from "../utility";
 
-export class TileAPI {
-  public async getTiles(
+export class BannerAPI {
+  public async getBannerImages(
     spHttpClient: SPHttpClient,
     baseUrl: string,
     listName: string,
-    numberOfItems: number,
     categoryName: string
-  ): Promise<ITileItem[]> {
-    let tileItem: ITileItem[] = [];
-    const topOperator =
-      numberOfItems !== undefined && numberOfItems > 0
-        ? `$top=${numberOfItems}&`
-        : "";
+  ): Promise<IBannerItem[]> {
+    let bannerItem: IBannerItem[] = [];
     const categoryFilter: string =
       categoryName === undefined || categoryName === "All"
         ? ""
         : `&$filter=Category eq '${categoryName}'`;
-    const bannerEnpointUrl: string = `${baseUrl}/_api/web/lists/GetByTitle('${listName}')/items?${topOperator}$select=EncodedAbsUrl,TileTitle,TileDescription,NavigationUrl${categoryFilter}`;
+    const bannerEnpointUrl: string = `${baseUrl}/_api/web/lists/GetByTitle('${listName}')/items?$select=EncodedAbsUrl,SlideTitle,SlideDescription,NavigationUrl${categoryFilter}`;
     const response: SPHttpClientResponse = await spHttpClient.get(
       bannerEnpointUrl,
       SPHttpClient.configurations.v1,
@@ -44,10 +40,10 @@ export class TileAPI {
       responseJson.value.length > 0
     ) {
       responseJson.value.map((val: any, i) => {
-        tileItem.push({
+        bannerItem.push({
           imageUrl: val.EncodedAbsUrl,
-          tileDescription: val?.TileDescription,
-          tileTitle: val?.TileTitle,
+          slideDescription: val?.SlideDescription,
+          slideTitle: val?.SlideTitle,
           navigationUrl: val.NavigationUrl
             ? Utility.IsUrlAbsolute(val.NavigationUrl)
               ? val.NavigationUrl
@@ -56,10 +52,10 @@ export class TileAPI {
         });
       });
     }
-    return tileItem;
+    return bannerItem;
   }
 
-  public async isListExists(
+  public async isBanerListExists(
     spHttpClient: SPHttpClient,
     baseUrl: string,
     listName: string
@@ -80,7 +76,8 @@ export class TileAPI {
     }
     return true;
   }
-  public async createTeamList(
+
+  public async createBannerList(
     spHttpClient: SPHttpClient,
     baseUrl: string,
     listName: string,
@@ -88,7 +85,7 @@ export class TileAPI {
     failureFunction: (data: any) => void
   ): Promise<void> {
     const listEndPointUrl: string = `${baseUrl}/_api/web/lists`;
-    const listColumnEndPointUrl: string = `${baseUrl}/_api/web/lists/getByTitle('${listName}')`;
+    const listColumnEndPointUrl: string = `${baseUrl}/_api/web/lists/getByTitle('${listName}')/fields`;
     const listDefinition: any = {
       __metadata: {
         type: "SP.List",
@@ -97,14 +94,25 @@ export class TileAPI {
       Description: `${listName} description`,
       AllowContentTypes: true,
       BaseTemplate: 101,
-      // ContentTypesEnabled: true,
+      ContentTypesEnabled: true,
     };
 
     const columnDefinations: any = [
       {
-        Title: "Id",
-        InternalName: "Id",
-        FieldTypeKind: 1,
+        Title: "SlideTitle",
+        StaticName: "SlideTitle",
+      },
+      {
+        Title: "SlideDescription",
+        StaticName: "SlideDescription",
+      },
+      {
+        Title: "NavigationUrl",
+        StaticName: "NavigationUrl",
+      },
+      {
+        Title: "EncodedAbsUrl",
+        StaticName: "EncodedAbsUrl",
       },
     ];
 
@@ -145,35 +153,33 @@ export class TileAPI {
   ): Promise<void> {
     let url: string =
       baseUrl + `/_api/web/lists/getByTitle('${listName}')/fields`;
-    // forEach(columnDefinations, function (value, key) {
     const spOpts1: ISPHttpClientOptions = {
       headers: {
         Accept: "application/json;odata=verbose",
         "Content-Type": "application/json;odata=verbose",
         "odata-version": "",
       },
-      body: "{'__metadata':{'type': 'SP.Field'},'FieldTypeKind': 2,'Title':'TileTitle'}",
+      body: "{'__metadata':{'type': 'SP.Field'},'FieldTypeKind': 2,'Title':'SlideTitle'}",
       method: "POST",
     };
     spHttpClient
       .post(url, SPHttpClient.configurations.v1, spOpts1)
       .then(async (resut) => {
         let data = await resut.json();
-        console.log(data);
         const spOpts2: ISPHttpClientOptions = {
           headers: {
             Accept: "application/json;odata=verbose",
             "Content-Type": "application/json;odata=verbose",
             "odata-version": "",
           },
-          body: "{'__metadata':{'type': 'SP.Field'},'FieldTypeKind': 2,'Title':'TileDescription'}",
+          body: "{'__metadata':{'type': 'SP.Field'},'FieldTypeKind': 2,'Title':'SlideDescription'}",
           method: "POST",
         };
         spHttpClient
           .post(url, SPHttpClient.configurations.v1, spOpts2)
           .then(async (resut) => {
             let data = await resut.json();
-            console.log(data);
+
             const spOpts3: ISPHttpClientOptions = {
               headers: {
                 Accept: "application/json;odata=verbose",
@@ -187,7 +193,6 @@ export class TileAPI {
               .post(url, SPHttpClient.configurations.v1, spOpts3)
               .then(async (resut) => {
                 let data = await resut.json();
-                console.log(data);
                 const spOpts4: ISPHttpClientOptions = {
                   headers: {
                     Accept: "application/json;odata=verbose",
@@ -201,68 +206,12 @@ export class TileAPI {
                   .post(url, SPHttpClient.configurations.v1, spOpts4)
                   .then(async (resut) => {
                     let data = await resut.json();
-                    console.log(data);
                     this.addView(
                       spHttpClient,
                       baseUrl,
                       listName,
                       successFunction
                     );
-                  });
-              });
-          });
-      });
-    // });
-  }
-  public addView(
-    spHttpClient: SPHttpClient,
-    baseUrl: string,
-    listName: string,
-    successFunction: (data: any) => void
-  ) {
-    const url: string = `${baseUrl}/_api/web/lists/GetByTitle('${listName}')/Views/GetByTitle('All%20Documents')/ViewFields/`;
-    const spOpts1: ISPHttpClientOptions = {
-      headers: {
-        Accept: "application/json;odata=verbose",
-        "Content-Type": "application/json;odata=verbose",
-        "odata-version": "",
-      },
-      body: "",
-      method: "POST",
-    };
-    spHttpClient
-      .post(
-        `${url}addViewField('TileTitle')`,
-        SPHttpClient.configurations.v1,
-        spOpts1
-      )
-      .then(async (resut) => {
-        let data = await resut.json();
-        spHttpClient
-          .post(
-            `${url}addViewField('TileDescription')`,
-            SPHttpClient.configurations.v1,
-            spOpts1
-          )
-          .then(async (resut) => {
-            let data = await resut.json();
-            spHttpClient
-              .post(
-                `${url}addViewField('NavigationUrl')`,
-                SPHttpClient.configurations.v1,
-                spOpts1
-              )
-              .then(async (resut) => {
-                let data = await resut.json();
-                spHttpClient
-                  .post(
-                    `${url}addViewField('Category')`,
-                    SPHttpClient.configurations.v1,
-                    spOpts1
-                  )
-                  .then(async (resut) => {
-                    let data = await resut.json();
-                    successFunction("View Added");
                   });
               });
           });
@@ -290,8 +239,8 @@ export class TileAPI {
 
     const listItem: any = {
       // __metadata: { type: `SP.Data.${listName}Item` },
-      TileTitle: items.TileTitle,
-      TileDescription: items.TileDescription,
+      SlideTitle: items.SlideTitle,
+      SlideDescription: items.SlideDescription,
       NavigationUrl: items.NavigationUrl,
       Category: items.Category,
     };
@@ -352,6 +301,62 @@ export class TileAPI {
         });
     }
   }
+
+  public addView(
+    spHttpClient: SPHttpClient,
+    baseUrl: string,
+    listName: string,
+    successFunction: (data: any) => void
+  ) {
+    const url: string = `${baseUrl}/_api/web/lists/GetByTitle('${listName}')/Views/GetByTitle('All%20Documents')/ViewFields/`;
+    const spOpts1: ISPHttpClientOptions = {
+      headers: {
+        Accept: "application/json;odata=verbose",
+        "Content-Type": "application/json;odata=verbose",
+        "odata-version": "",
+      },
+      body: "",
+      method: "POST",
+    };
+    spHttpClient
+      .post(
+        `${url}addViewField('SlideTitle')`,
+        SPHttpClient.configurations.v1,
+        spOpts1
+      )
+      .then(async (resut) => {
+        let data = await resut.json();
+        spHttpClient
+          .post(
+            `${url}addViewField('SlideDescription')`,
+            SPHttpClient.configurations.v1,
+            spOpts1
+          )
+          .then(async (resut) => {
+            let data = await resut.json();
+            spHttpClient
+              .post(
+                `${url}addViewField('NavigationUrl')`,
+                SPHttpClient.configurations.v1,
+                spOpts1
+              )
+              .then(async (resut) => {
+                let data = await resut.json();
+                spHttpClient
+                  .post(
+                    `${url}addViewField('Category')`,
+                    SPHttpClient.configurations.v1,
+                    spOpts1
+                  )
+                  .then(async (resut) => {
+                    let data = await resut.json();
+                    successFunction("View Added");
+                  });
+              });
+          });
+      });
+  }
+
   public addSampleData(
     value: string,
     baseUrl: string,
@@ -373,8 +378,8 @@ export class TileAPI {
           baseUrl,
           value,
           {
-            TileTitle: "Sample Tile Title 1",
-            TileDescription: "Sample Tile Description 1",
+            SlideTitle: "Sample Tile 1",
+            SlideDescription: "Sample Description 1",
             NavigationUrl: "",
             Category: "Sample",
           },
@@ -394,8 +399,8 @@ export class TileAPI {
                   baseUrl,
                   value,
                   {
-                    TileTitle: "Sample Tile Title 2",
-                    TileDescription: "Sample Tile Description 2",
+                    SlideTitle: "Sample Tile 2",
+                    SlideDescription: "Sample Description 2",
                     NavigationUrl: "",
                     Category: "Sample",
                   },

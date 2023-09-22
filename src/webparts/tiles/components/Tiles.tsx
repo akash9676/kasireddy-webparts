@@ -13,7 +13,7 @@ import {
   ActionType,
 } from "./enums";
 import { isPageInEditMode } from "../../common/isPageInEditMode";
-import { TileAPI } from "../../../api/tileApi";
+import { TileAPI } from "../../../api/tile/tileApi";
 
 export default class Tiles extends React.Component<ITilesProps, ITileState> {
   private baseUrl: string;

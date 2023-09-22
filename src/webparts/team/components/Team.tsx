@@ -6,7 +6,7 @@ import { ITeam, ITeamState } from "./ITeamState";
 import * as _ from "lodash";
 import { ISeeMoreSettings } from "../../../settings/seeMoreSettings/ISeeMoreSettings";
 import { isPageInEditMode } from "../../common/isPageInEditMode";
-import { TeamAPI } from "../../../api/teamApi";
+import { TeamAPI } from "../../../api/team/teamApi";
 
 export default class Team extends React.Component<ITeamProps, ITeamState> {
   private baseUrl: string;

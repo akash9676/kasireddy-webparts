@@ -28,7 +28,7 @@ import { titlePosition } from "../tiles/components/enums";
 import { fetchList } from "../../api/fetchList";
 import { fetchListCategory } from "../../api/fetchListCategory";
 import { getListUrl } from "../common/getListUrl";
-import { TeamAPI } from "../../api/teamApi";
+import { TeamAPI } from "../../api/team/teamApi";
 
 export interface ITeamWebPartProps extends ISeeMoreSettings {
   listName: string;

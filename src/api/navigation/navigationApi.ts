@@ -1,33 +1,30 @@
-import { ITeam } from "../webparts/team/components/ITeamState";
 import {
   SPHttpClient,
   SPHttpClientResponse,
   ISPHttpClientOptions,
   HttpClient,
 } from "@microsoft/sp-http";
-import getFormDigest from "./getFormDigest";
-import { SampleImages } from "../utils/sample/SampleImages";
+import { INavigationItem } from "../../webparts/navigation/components/INavigationItem";
+import * as _ from "lodash";
+import { forEach } from "lodash";
+import getFormDigest from "../getFormDigest";
+import { Utility } from "../utility";
 
-export class TeamAPI {
-  public async getTeam(
+export class NavigationAPI {
+  public async getNavigationItms(
     spHttpClient: SPHttpClient,
     baseUrl: string,
     listName: string,
-    numberOfItems: number,
     categoryName: string
-  ): Promise<ITeam[]> {
-    let teams: ITeam[] = [];
-    const topOperator =
-      numberOfItems !== undefined && numberOfItems > 0
-        ? `$top=${numberOfItems} & `
-        : "";
+  ): Promise<INavigationItem[]> {
+    let items: INavigationItem[] = [];
     const categoryFilter: string =
       categoryName === undefined || categoryName === "All"
         ? ""
         : `&$filter=Category eq '${categoryName}'`;
-    const enpointUrl: string = `${baseUrl}/_api/web/lists/GetByTitle('${listName}')/items?${topOperator}$select=Name,Email,Department,ProfilePic,Region${categoryFilter}`;
+    const bannerEnpointUrl: string = `${baseUrl}/_api/web/lists/GetByTitle('${listName}')/items?$select=Id,Title,Description,Parent,NavigationUrl,Category${categoryFilter}`;
     const response: SPHttpClientResponse = await spHttpClient.get(
-      enpointUrl,
+      bannerEnpointUrl,
       SPHttpClient.configurations.v1,
       {
         headers: {
@@ -43,18 +40,40 @@ export class TeamAPI {
       responseJson.value.length > 0
     ) {
       responseJson.value.map((val: any, i) => {
-        teams.push({
-          email: val.Email,
-          teamName: val.Name,
-          department: val.Department,
-          profilePic: JSON.parse(val.ProfilePic)?.serverRelativeUrl,
-          region: val.Region,
-        });
+        if (val.Parent == 0) {
+          items.push({
+            id: val.Id,
+            name: val.Title,
+            description: val.Description,
+            parentid: val.Parent,
+            children: [],
+            navigationUrl: val.NavigationUrl
+              ? Utility.IsUrlAbsolute(val.NavigationUrl)
+                ? val.NavigationUrl
+                : baseUrl + val.NavigationUrl
+              : "",
+          });
+        } else {
+          var parentObject = _.find(items, ["id", val.Parent]);
+          if (parentObject) {
+            parentObject.children.push({
+              id: val.Id0,
+              name: val.Title,
+              description: val.Description,
+              parentid: val.Parent,
+              children: [],
+              navigationUrl: val.NavigationUrl
+                ? baseUrl + val.NavigationUrl
+                : "",
+            });
+          }
+        }
       });
     }
-    return teams;
+    return items;
   }
-  public async isListExists(
+
+  public async isNavigationListExists(
     spHttpClient: SPHttpClient,
     baseUrl: string,
     listName: string
@@ -75,7 +94,8 @@ export class TeamAPI {
     }
     return true;
   }
-  public async createTeamList(
+
+  public async createNavigationList(
     spHttpClient: SPHttpClient,
     baseUrl: string,
     listName: string,
@@ -140,13 +160,32 @@ export class TeamAPI {
   ): Promise<void> {
     let url: string =
       baseUrl + `/_api/web/lists/getByTitle('${listName}')/fields`;
+    const columnDefinations: any = [
+      {
+        Title: "Id",
+        FieldTypeKind: 1,
+      },
+      {
+        Title: "Parent",
+        FieldTypeKind: 1,
+      },
+      {
+        Title: "Description",
+        FieldTypeKind: 2,
+      },
+      {
+        Title: "NavigationUrl",
+        FieldTypeKind: 2,
+      },
+    ];
+    // forEach(columnDefinations, function (value, key) {
     const spOpts1: ISPHttpClientOptions = {
       headers: {
         Accept: "application/json;odata=verbose",
         "Content-Type": "application/json;odata=verbose",
         "odata-version": "",
       },
-      body: "{'__metadata':{'type': 'SP.Field'},'FieldTypeKind': 2,'Title':'Name'}",
+      body: "{'__metadata':{'type': 'SP.FieldNumber'},'FieldTypeKind': 9,'Title':'Id'}",
       method: "POST",
     };
     spHttpClient
@@ -159,7 +198,7 @@ export class TeamAPI {
             "Content-Type": "application/json;odata=verbose",
             "odata-version": "",
           },
-          body: "{'__metadata':{'type': 'SP.Field'},'FieldTypeKind': 2,'Title':'Email'}",
+          body: "{'__metadata':{'type': 'SP.FieldNumber'},'FieldTypeKind': 9,'Title':'Parent'}",
           method: "POST",
         };
         spHttpClient
@@ -172,7 +211,7 @@ export class TeamAPI {
                 "Content-Type": "application/json;odata=verbose",
                 "odata-version": "",
               },
-              body: "{'__metadata':{'type': 'SP.Field'},'FieldTypeKind': 34,'Title':'ProfilePic'}",
+              body: "{'__metadata':{'type': 'SP.Field'},'FieldTypeKind': 2,'Title':'Description'}",
               method: "POST",
             };
             spHttpClient
@@ -185,7 +224,7 @@ export class TeamAPI {
                     "Content-Type": "application/json;odata=verbose",
                     "odata-version": "",
                   },
-                  body: "{'__metadata':{'type': 'SP.Field'},'FieldTypeKind': 2,'Title':'Department'}",
+                  body: "{'__metadata':{'type': 'SP.Field'},'FieldTypeKind': 2,'Title':'NavigationUrl'}",
                   method: "POST",
                 };
                 spHttpClient
@@ -198,33 +237,19 @@ export class TeamAPI {
                         "Content-Type": "application/json;odata=verbose",
                         "odata-version": "",
                       },
-                      body: "{'__metadata':{'type': 'SP.Field'},'FieldTypeKind': 2,'Title':'Region'}",
+                      body: "{'__metadata':{'type': 'SP.Field'},'FieldTypeKind': 2,'Title':'Category'}",
                       method: "POST",
                     };
                     spHttpClient
                       .post(url, SPHttpClient.configurations.v1, spOpts5)
                       .then(async (resut) => {
                         let data = await resut.json();
-                        const spOpts6: ISPHttpClientOptions = {
-                          headers: {
-                            Accept: "application/json;odata=verbose",
-                            "Content-Type": "application/json;odata=verbose",
-                            "odata-version": "",
-                          },
-                          body: "{'__metadata':{'type': 'SP.Field'},'FieldTypeKind': 2,'Title':'Category'}",
-                          method: "POST",
-                        };
-                        spHttpClient
-                          .post(url, SPHttpClient.configurations.v1, spOpts6)
-                          .then(async (resut) => {
-                            let data = await resut.json();
-                            this.addView(
-                              spHttpClient,
-                              baseUrl,
-                              listName,
-                              successFunction
-                            );
-                          });
+                        this.addView(
+                          spHttpClient,
+                          baseUrl,
+                          listName,
+                          successFunction
+                        );
                       });
                   });
               });
@@ -232,6 +257,32 @@ export class TeamAPI {
       });
     // });
   }
+
+  public async addItems(
+    spHttpClient: SPHttpClient,
+    baseUrl: string,
+    listName: string,
+    items: INavigationItem,
+    successFunction: (data: any) => void,
+    failureFunction: (data: any) => void
+  ): Promise<void> {
+    let url = `${baseUrl}/_api/web/lists/getbytitle('${listName}')/items`;
+
+    const spOpts: ISPHttpClientOptions = {
+      body: `{ Id:'${items.id}',Title:'${items.name}',Description:'${items.description}',Parent:'${items.parentid}',NavigationUrl:'${items.navigationUrl}' }`,
+    };
+
+    spHttpClient.post(url, SPHttpClient.configurations.v1, spOpts).then(
+      async (response: SPHttpClientResponse) => {
+        let result = await response.json();
+        successFunction(result);
+      },
+      (error: any): void => {
+        failureFunction(error);
+      }
+    );
+  }
+
   public addView(
     spHttpClient: SPHttpClient,
     baseUrl: string,
@@ -249,16 +300,11 @@ export class TeamAPI {
       method: "POST",
     };
     spHttpClient
-      .post(
-        `${url}addViewField('Name')`,
-        SPHttpClient.configurations.v1,
-        spOpts1
-      )
-      .then(async (resut) => {
-        let data = await resut.json();
+      .post(`${url}addViewField('Id')`, SPHttpClient.configurations.v1, spOpts1)
+      .then(async (result) => {
         spHttpClient
           .post(
-            `${url}addViewField('Email')`,
+            `${url}addViewField('Parent')`,
             SPHttpClient.configurations.v1,
             spOpts1
           )
@@ -266,7 +312,7 @@ export class TeamAPI {
             let data = await resut.json();
             spHttpClient
               .post(
-                `${url}addViewField('ProfilePic')`,
+                `${url}addViewField('Description')`,
                 SPHttpClient.configurations.v1,
                 spOpts1
               )
@@ -274,7 +320,7 @@ export class TeamAPI {
                 let data = await resut.json();
                 spHttpClient
                   .post(
-                    `${url}addViewField('Department')`,
+                    `${url}addViewField('NavigationUrl')`,
                     SPHttpClient.configurations.v1,
                     spOpts1
                   )
@@ -282,29 +328,19 @@ export class TeamAPI {
                     let data = await resut.json();
                     spHttpClient
                       .post(
-                        `${url}addViewField('Region')`,
+                        `${url}addViewField('Category')`,
                         SPHttpClient.configurations.v1,
                         spOpts1
                       )
                       .then(async (resut) => {
                         let data = await resut.json();
-                        spHttpClient
-                          .post(
-                            `${url}addViewField('Category')`,
-                            SPHttpClient.configurations.v1,
-                            spOpts1
-                          )
-                          .then(async (resut) => {
-                            let data = await resut.json();
-                            successFunction("View Added");
-                          });
+                        successFunction("View Added");
                       });
                   });
               });
           });
       });
   }
-
   public async addItemInList(
     spHttpClient: SPHttpClient,
     baseUrl: string,
@@ -317,10 +353,10 @@ export class TeamAPI {
 
     const listItem: any = {
       Title: items.Title,
-      Name: items.Name,
-      Email: items.Email,
-      Department: items.Department,
-      Region: items.Region,
+      Id: Number(items.Id),
+      Parent: Number(items.Parent),
+      Description: items.Description,
+      NavigationUrl: items.NavigationUrl,
       Category: items.Category,
     };
     const spOpts: ISPHttpClientOptions = {
@@ -352,38 +388,6 @@ export class TeamAPI {
         }
       );
   }
-
-  public UploadFiles(
-    file: File,
-    baseUrl: string,
-    spHttpClient: SPHttpClient,
-    listName: string,
-    successFunction: (data: any) => void,
-    failureFunction: (data: any) => void
-  ): void {
-    if (file != undefined || file != null) {
-      let spOpts: ISPHttpClientOptions = {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: file,
-      };
-
-      var url = `${baseUrl}/_api/Web/Lists/getByTitle('${listName}')/RootFolder/Files/Add(url='${file.name}', overwrite=true)`;
-
-      spHttpClient
-        .post(url, SPHttpClient.configurations.v1, spOpts)
-        .then((response: SPHttpClientResponse) => {
-          if (response.status === 200) {
-            response.json().then((responseJSON: JSON) => {
-              successFunction(responseJSON);
-            });
-          }
-        });
-    }
-  }
-
   public addSampleData(
     value: string,
     baseUrl: string,
@@ -397,10 +401,10 @@ export class TeamAPI {
       value,
       {
         Title: "Sample Title 1",
-        Name: "Sample Team 1",
-        Email: "Sample1@Email.com",
-        Department: "Department 1",
-        Region: "APAC",
+        Id: 1,
+        Parent: 0,
+        Description: "Description 1",
+        NavigationUrl: "",
         Category: "Sample",
       },
       (data) => {
@@ -410,14 +414,32 @@ export class TeamAPI {
           value,
           {
             Title: "Sample Title 2",
-            Name: "Sample Team 2",
-            Email: "Sample2@Email.com",
-            Department: "Department 2",
-            Region: "EMEA",
+            Id: 2,
+            Parent: 0,
+            Description: "Description 2",
+            NavigationUrl: "",
             Category: "Sample",
           },
           (data) => {
-            successFunction("Sample Data Added");
+            this.addItemInList(
+              spHttpClient,
+              baseUrl,
+              value,
+              {
+                Title: "Sample Title 3",
+                Id: 3,
+                Parent: 1,
+                Description: "Description 3",
+                NavigationUrl: "",
+                Category: "Sample",
+              },
+              (data) => {
+                successFunction("Sample Data Added");
+              },
+              (error) => {
+                failureFunction(error);
+              }
+            );
           },
           (error) => {
             failureFunction(error);
@@ -428,20 +450,5 @@ export class TeamAPI {
         failureFunction(error);
       }
     );
-  }
-  private dataURItoBlob(dataURI) {
-    // convert base64 to raw binary data held in a string
-    var byteString = atob(dataURI.split(",")[1]);
-
-    // separate out the mime component
-    var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
-
-    // write the bytes of the string to an ArrayBuffer
-    var ab = new ArrayBuffer(byteString.length);
-    var ia = new Uint8Array(ab);
-    for (var i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return [ab];
   }
 }
