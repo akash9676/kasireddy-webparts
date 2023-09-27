@@ -1,4 +1,4 @@
-import { IBannerItem } from "../../webparts/project/components/IBannerItem";
+import { IBannerItem } from "../../webparts/banner/components/IBannerItem";
 import {
   SPHttpClient,
   SPHttpClientResponse,

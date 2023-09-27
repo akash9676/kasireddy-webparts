@@ -2,7 +2,7 @@ import * as React from "react";
 import "./index.scss";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
-import { IBannerItem } from "../../../webparts/project/components/IBannerItem";
+import { IBannerItem } from "../../../webparts/banner/components/IBannerItem";
 import { toInteger } from "lodash";
 
 interface IProps {

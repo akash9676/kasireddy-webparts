@@ -31,7 +31,7 @@ import {
 import { ISeeMoreSettings } from "../../settings/seeMoreSettings/ISeeMoreSettings";
 import { fetchDocumentList } from "../../api/fetchDocumentList";
 import { fetchListCategory } from "../../api/fetchListCategory";
-import { getListUrl } from "../common/getListUrl";
+import { getListUrl } from "../../utils/common/getListUrl";
 import { TileAPI } from "../../api/tile/tileApi";
 
 export interface ITilesWebPartProps extends ISeeMoreSettings {

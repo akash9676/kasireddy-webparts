@@ -2,6 +2,7 @@
   /**
    * Install Chrome Debugger Extension for Visual Studio Code to debug your components with the
    * Chrome browser: https://aka.ms/spfx-debugger-extensions
+   * this settings are helps to launch your default browser with a specific URL
    */
   "version": "0.2.0",
   "configurations": [

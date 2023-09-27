@@ -6,7 +6,7 @@ import { INavigationItem } from "./INavigationItem";
 import * as _ from "lodash";
 import { INavigationState } from "./INavigationState";
 import { NavigationAPI } from "../../../api/navigation/navigationApi";
-import { isPageInEditMode } from "../../common/isPageInEditMode";
+import { isPageInEditMode } from "../../../utils/common/isPageInEditMode";
 
 export default class Navigation extends React.Component<
   INavigationProps,

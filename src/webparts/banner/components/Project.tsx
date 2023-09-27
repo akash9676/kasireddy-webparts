@@ -7,7 +7,7 @@ import * as _ from "lodash";
 import { IBannerItem } from "./IBannerItem";
 import { BannerAPI } from "../../../api/banner/bannerApi";
 import { ActionType } from "../../tiles/components/enums";
-import { isPageInEditMode } from "../../common/isPageInEditMode";
+import { isPageInEditMode } from "../../../utils/common/isPageInEditMode";
 
 export default class Project extends React.Component<
   IProjectProps,

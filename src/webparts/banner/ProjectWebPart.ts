@@ -20,7 +20,7 @@ import Project from "./components/Project";
 import { IProjectProps } from "./components/IProjectProps";
 import { fetchDocumentList } from "../../api/fetchDocumentList";
 import { fetchListCategory } from "../../api/fetchListCategory";
-import { getListUrl } from "../common/getListUrl";
+import { getListUrl } from "../../utils/common/getListUrl";
 import { BannerAPI } from "../../api/banner/bannerApi";
 import { Constant } from "./constant";
 

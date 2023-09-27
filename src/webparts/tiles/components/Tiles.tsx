@@ -12,7 +12,7 @@ import {
   textPosition,
   ActionType,
 } from "./enums";
-import { isPageInEditMode } from "../../common/isPageInEditMode";
+import { isPageInEditMode } from "../../../utils/common/isPageInEditMode";
 import { TileAPI } from "../../../api/tile/tileApi";
 
 export default class Tiles extends React.Component<ITilesProps, ITileState> {

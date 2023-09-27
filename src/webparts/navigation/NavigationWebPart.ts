@@ -18,7 +18,7 @@ import Navigation from "./components/Navigation";
 import { INavigationProps } from "./components/INavigationProps";
 import { fetchList } from "../../api/fetchList";
 import { fetchListCategory } from "../../api/fetchListCategory";
-import { getListUrl } from "../common/getListUrl";
+import { getListUrl } from "../../utils/common/getListUrl";
 import { NavigationAPI } from "../../api/navigation/navigationApi";
 
 export interface INavigationWebPartProps {
