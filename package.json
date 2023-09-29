@@ -12,17 +12,20 @@
     "dist": "gulp clean && gulp build --ship && gulp bundle --ship && gulp package-solution --ship"
   },
   "dependencies": {
+    "@fluentui/react": "^7.199.1",
+    "@microsoft/load-themed-styles": "^2.0.29",
+    "@microsoft/microsoft-graph-client": "^3.0.2",
+    "@microsoft/sp-component-base": "1.17.4",
     "@microsoft/sp-core-library": "1.17.4",
     "@microsoft/sp-lodash-subset": "1.17.4",
     "@microsoft/sp-office-ui-fabric-core": "1.17.4",
     "@microsoft/sp-property-pane": "1.17.4",
     "@microsoft/sp-webpart-base": "1.17.4",
+    "jquery": "^3.7.1",
     "office-ui-fabric-react": "^7.199.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "typescript": "^5.1.6",
-    "@fluentui/react": "^7.199.1",
-    "@microsoft/sp-component-base": "1.17.4"
+    "typescript": "^5.1.6"
   },
   "devDependencies": {
     "@microsoft/rush-stack-compiler-3.9": "^0.6.0",
